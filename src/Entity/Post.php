@@ -6,12 +6,16 @@ use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Blameable\Traits\BlameableEntity;
 
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
  */
 class Post
 {
+    use TimestampableEntity;
+    use BlameableEntity;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -42,6 +46,8 @@ class Post
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
     }
 
     public function getId(): ?int

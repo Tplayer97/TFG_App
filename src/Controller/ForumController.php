@@ -5,7 +5,9 @@ namespace App\Controller;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Form\PostFormType;
 use App\Form\Ticket\TicketFormType;
+use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +26,12 @@ class ForumController extends AbstractController
         ]);
     }
     /**
+     * @Route("/forum/list", name="app_forum_list")
+     */
+    public function list(PostRepository $postRepo, PaginatorInterface $paginator, Request $request){
+
+    }
+    /**
      * @Route("/forum/createpost", name="app_forum_create")
      */
     public function CrearPost(EntityManagerInterface $em, Request $request): Response
@@ -32,7 +40,10 @@ class ForumController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
             {
-            $Route = $this->generateUrl('app_forum', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);
+                $post = $form->getData();
+                $em->persist($post);
+                $em->flush();
+                $Route = $this->generateUrl('app_forum', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);
             return $this->redirect($Route);
         }
         return $this->render('Forum/postform.html.twig',[
