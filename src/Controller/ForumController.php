@@ -29,6 +29,13 @@ class ForumController extends AbstractController
      * @Route("/forum/list", name="app_forum_list")
      */
     public function list(PostRepository $postRepo, PaginatorInterface $paginator, Request $request){
+        $qb = $postRepo->getWithSearchQueryBuilder("prueba");
+        $pagination = $paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            10
+        );
+        dd($pagination);
 
     }
     /**
