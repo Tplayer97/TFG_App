@@ -1,0 +1,13 @@
+
+{% extends 'templates/base.html.twig' %}
+
+{% block title %}
+    {{  parent() }}Crear Post
+{% endblock %}
+
+{% block body %}
+    {{ form_start(postform) }}
+
+    <div> {{ form_row(postform.Title) }}</div>
+    {{ form_end(postform) }}
+{% endblock %}
