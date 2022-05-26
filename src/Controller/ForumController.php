@@ -26,17 +26,29 @@ class ForumController extends AbstractController
         ]);
     }
     /**
+     * @Route("/forum/open/{id}", name="app_forum_open")
+     */
+    public function open($id, PostRepository $postRepo,  PaginatorInterface $paginator){
+        $post = $postRepo->findOneById($id);
+        return $this->render('Forum/post.html.twig',[
+            'post' => $post,
+        ]);
+    }
+    /**
      * @Route("/forum/list", name="app_forum_list")
      */
     public function list(PostRepository $postRepo, PaginatorInterface $paginator, Request $request){
-        $qb = $postRepo->getWithSearchQueryBuilder("prueba");
+        $Posts = $postRepo->findAll();
+        $qb = $postRepo->getWithSearchQueryBuilder();
         $pagination = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10
         );
-        dd($pagination);
-
+    return $this->render('Forum/list.html.twig',[
+        'pagination' => $pagination,
+        'posts' => $Posts
+    ]);
     }
     /**
      * @Route("/forum/createpost", name="app_forum_create")
@@ -50,7 +62,7 @@ class ForumController extends AbstractController
                 $post = $form->getData();
                 $em->persist($post);
                 $em->flush();
-                $Route = $this->generateUrl('app_forum', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);
+                $Route = $this->generateUrl('app_forum_list', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);
             return $this->redirect($Route);
         }
         return $this->render('Forum/postform.html.twig',[

@@ -33,6 +33,12 @@ class Comment
      */
     private $Post;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ContentCreator::class, inversedBy="Comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $contentCreator;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +76,18 @@ class Comment
     public function setPost(?Post $Post): self
     {
         $this->Post = $Post;
+
+        return $this;
+    }
+
+    public function getContentCreator(): ?ContentCreator
+    {
+        return $this->contentCreator;
+    }
+
+    public function setContentCreator(?ContentCreator $contentCreator): self
+    {
+        $this->contentCreator = $contentCreator;
 
         return $this;
     }

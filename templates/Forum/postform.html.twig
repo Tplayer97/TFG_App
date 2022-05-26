@@ -7,7 +7,14 @@
 
 {% block body %}
     {{ form_start(postform) }}
-
-    <div> {{ form_row(postform.Title) }}</div>
+    <div class="tabs-panel is-active">
+        <div class="grid-x grid-padding-x">
+            <div class="cell medium-8">
+                <div> {{ form_row(postform.Title) }}</div>
+                <div> {{ form_row(postform.Content) }}</div>
+                <div> {{ form_row(postform.Post) }}</div>
+            </div>
+        </div>
+    </div>
     {{ form_end(postform) }}
 {% endblock %}

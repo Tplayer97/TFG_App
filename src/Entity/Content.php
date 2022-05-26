@@ -32,6 +32,13 @@ class Content
      */
     private $Score = 0;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ContentCreator::class, inversedBy="Content")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $contentCreator;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,4 +79,17 @@ class Content
 
         return $this;
     }
+
+    public function getContentCreator(): ?ContentCreator
+    {
+        return $this->contentCreator;
+    }
+
+    public function setContentCreator(?ContentCreator $contentCreator): self
+    {
+        $this->contentCreator = $contentCreator;
+
+        return $this;
+    }
+
 }

@@ -1,0 +1,27 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{  parent() }}Foro Principal
+{% endblock %}
+
+{% block body %}
+    <table class="table sortable">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th {% if (pagination.isSorted('Post.Score')) %} class="sorted" {% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Votos', ['Post.Score']) }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in pagination %}
+                <tr>
+                    <td><a href="{{ path('app_forum_open', {id:post.id}) }}">{{ post.Title }}</a></td>
+                    <td>{{ post.Score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

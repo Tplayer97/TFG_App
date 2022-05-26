@@ -46,7 +46,7 @@ class PostRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-    public function getWithSearchQueryBuilder(?string $titulo){
+    public function getWithSearchQueryBuilder(?string $titulo = null){
         $qb = $this->createQueryBuilder('Post');
         if($titulo) $qb->andWhere("Post.Title LIKE '$titulo'");
         return $qb;
@@ -69,15 +69,15 @@ class PostRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Post
+
+    public function findOneById($id): ?Post
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('p.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }
