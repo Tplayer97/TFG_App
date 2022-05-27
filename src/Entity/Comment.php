@@ -4,12 +4,16 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Blameable\Traits\BlameableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
  */
 class Comment
 {
+    use TimestampableEntity;
+    use BlameableEntity;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -32,12 +36,6 @@ class Comment
      * @ORM\JoinColumn(nullable=false)
      */
     private $Post;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=ContentCreator::class, inversedBy="Comments")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $contentCreator;
 
     public function getId(): ?int
     {
@@ -80,15 +78,5 @@ class Comment
         return $this;
     }
 
-    public function getContentCreator(): ?ContentCreator
-    {
-        return $this->contentCreator;
-    }
 
-    public function setContentCreator(?ContentCreator $contentCreator): self
-    {
-        $this->contentCreator = $contentCreator;
-
-        return $this;
-    }
 }

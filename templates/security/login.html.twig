@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="login-form bg-light mt-4 p-4">
+                <form method="post" class="row g-3">
+                    <h1 class="h3 mb-3 font-weight-normal">Inicio de sesión</h1>
+                    <div class="medium-12">
+                        <label for="inputUsername">Usuario</label>
+                        <input type="username" name="username" id="inputUsername" class="form-control" required autofocus>
+                    </div>
+                    <div class="medium-12">
+                        <label for="Contraseña">contraseña</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-lg btn-primary float-end" type="submit">
+                            Iniciar Sesión
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

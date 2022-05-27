@@ -4,12 +4,16 @@ namespace App\Entity;
 
 use App\Repository\ContentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Blameable\Traits\BlameableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ContentRepository::class)
  */
 class Content
 {
+    use TimestampableEntity;
+    use BlameableEntity;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -32,11 +36,6 @@ class Content
      */
     private $Score = 0;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=ContentCreator::class, inversedBy="Content")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $contentCreator;
 
 
     public function getId(): ?int
@@ -76,18 +75,6 @@ class Content
     public function setScore(int $Score): self
     {
         $this->Score = $Score;
-
-        return $this;
-    }
-
-    public function getContentCreator(): ?ContentCreator
-    {
-        return $this->contentCreator;
-    }
-
-    public function setContentCreator(?ContentCreator $contentCreator): self
-    {
-        $this->contentCreator = $contentCreator;
 
         return $this;
     }

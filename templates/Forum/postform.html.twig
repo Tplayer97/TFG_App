@@ -7,12 +7,18 @@
 
 {% block body %}
     {{ form_start(postform) }}
+    <div class="jumbotron-img p-2 mb-2">
+        <div class="container">
+            <h1 class="display-4">Crear Post</h1>
+        </div>
+    </div>
     <div class="tabs-panel is-active">
         <div class="grid-x grid-padding-x">
             <div class="cell medium-8">
-                <div> {{ form_row(postform.Title) }}</div>
+                <h1 style="text-align: center;">Título</h1>
+                <div style="margin-bottom: 50px"> {{ form_row(postform.Title) }}</div>
                 <div> {{ form_row(postform.Content) }}</div>
-                <div> {{ form_row(postform.Post) }}</div>
+                <div style="margin-top: 20px;"> {{ form_row(postform.Post) }}</div>
             </div>
         </div>
     </div>
