@@ -8,9 +8,22 @@
 {% block body %}
     <div class="tabs-panel is-active">
 
-                <div style="margin-bottom: 100px"> {{ post.Title }}</div>
+                <div style="margin-bottom: 50px"> {{ post.Title }}</div>
                 <div> {{ post.Content|raw }}</div>
-                <div> {{ post.score }}</div>
+                <div>
+                    <form action="{{ path('app_forum_vote', {id: post.id}) }}" method="POST">
+                        <div class="vote-arrows vote-arrows-alt flex-fill pt-2" style="min-width: 90px;">
+                            {% if app.user.username in post.votado %}
+                            <button class="vote-up btn btn-link" name="direction" value="up"><i class="far fa-arrow-alt-circle-up"></i></button>
+                            <button class="vote-down btn btn-link" name="direction" value="down"><i class="far fa-arrow-alt-circle-down"></i></button>
+                            <span>{{ post.score }}</span>
+                        </div>
+                    </form>
+                </div>
+        <div class="d-flex justify-content-between my-4">
+            <h2 class="">Comentarios <span style="font-size:1.2rem;">({{ post.comments|length }})</span></h2>
+            <button class="btn btn-sm btn-secondary">Comentar</button>
+        </div>
 
 
     </div>

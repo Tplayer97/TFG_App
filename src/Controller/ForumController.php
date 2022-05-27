@@ -55,6 +55,13 @@ class ForumController extends AbstractController
     ]);
     }
     /**
+     * @Route("/forum/{id}/vote}", name="app_forum_vote")
+     * @IsGranted("ROLE_GESTOR")
+     */
+    public function vote($id, PostRepository $postRepository){
+
+    }
+    /**
      * @Route("/forum/createpost", name="app_forum_create")
      * @IsGranted("ROLE_GESTOR")
      */

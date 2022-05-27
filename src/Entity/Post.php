@@ -43,6 +43,11 @@ class Post
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $Votado = [];
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -117,6 +122,18 @@ class Post
                 $comment->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVotado(): ?array
+    {
+        return $this->Votado;
+    }
+
+    public function setVotado(?array $Votado): self
+    {
+        $this->Votado = $Votado;
 
         return $this;
     }
