@@ -15,9 +15,14 @@ class AppFixtures extends Fixture
         // $product = new Product();
         // $manager->persist($product);
 
-        UserFactory::createOne(['username' => 'AdminJose']);
-        UserFactory::createMany(10);
-        PostFactory::createMany(5);
+        UserFactory::createOne(['username' => 'AdminJose', 'roles' => ['ROLE_GESTOR']]);
+        UserFactory::createMany(5, ['roles' => ['ROLE_GESTOR']]);
+        UserFactory::createMany(5, ['roles' => ['ROLE_ADMIN']]);
+        PostFactory::createMany(10,function(){
+            return[
+                'created_by' => UserFactory::random()->getUserIdentifier()
+            ];
+        });
        // CommentFactory::createMany(3);
         $manager->flush();
     }

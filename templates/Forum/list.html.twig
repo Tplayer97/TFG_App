@@ -15,6 +15,10 @@
         <thead>
             <tr>
                 <th>Título</th>
+                <th>Creador</th>
+                <th {% if (pagination.isSorted('Post.createdAt')) %} class="sorted" {% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Creado', ['Post.createdAt']) }}
+                </th>
                 <th {% if (pagination.isSorted('Post.Score')) %} class="sorted" {% endif %}>
                     {{ knp_pagination_sortable(pagination, 'Votos', ['Post.Score']) }}
                 </th>
@@ -24,6 +28,8 @@
             {% for post in pagination %}
                 <tr>
                     <td><a href="{{ path('app_forum_open', {id:post.id}) }}">{{ post.Title }}</a></td>
+                    <td> {{ post.createdBy }}</td>
+                    <td> {{ post.createdAt|date("d.m. H:i") }}</td>
                     <td>{{ post.Score }}</td>
                 </tr>
             {% endfor %}

@@ -12,11 +12,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ForumController extends AbstractController
 {
     /**
      * @Route("/forum", name="app_forum")
+     *      * @IsGranted("ROLE_GESTOR")
      */
     public function index(): Response
     {
@@ -36,6 +39,7 @@ class ForumController extends AbstractController
     }
     /**
      * @Route("/forum/list", name="app_forum_list")
+     *      * @IsGranted("ROLE_GESTOR")
      */
     public function list(PostRepository $postRepo, PaginatorInterface $paginator, Request $request){
         $Posts = $postRepo->findAll();
@@ -52,14 +56,17 @@ class ForumController extends AbstractController
     }
     /**
      * @Route("/forum/createpost", name="app_forum_create")
+     * @IsGranted("ROLE_GESTOR")
      */
     public function CrearPost(EntityManagerInterface $em, Request $request): Response
     {
         $form = $this->createForm(PostFormType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid())
             {
                 $post = $form->getData();
+                $post->setCreatedBy($this->getUser()->getUserIdentifier());
                 $em->persist($post);
                 $em->flush();
                 $Route = $this->generateUrl('app_forum_list', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);

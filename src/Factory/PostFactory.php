@@ -39,8 +39,8 @@ final class PostFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'Title' => self::faker()->text(),
-            'Content' => self::faker()->title(),
+            'Title' => "Autogenerado",
+            'Content' => self::faker()->text(),
             'Score' => self::faker()->randomNumber(),
 
         ];
