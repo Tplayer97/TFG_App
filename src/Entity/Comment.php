@@ -12,7 +12,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Comment
 {
-    use TimestampableEntity;
+
     use BlameableEntity;
     /**
      * @ORM\Id

@@ -11,7 +11,7 @@
             <h1 class="display-4">Foro OctoEdu</h1>
         </div>
     </div>
-    <table class="table sortable">
+    <table class="table sortable" style="margin-left: 50px; margin-right: 50px">
         <thead>
             <tr>
                 <th>Título</th>
@@ -26,13 +26,20 @@
         </thead>
         <tbody>
             {% for post in pagination %}
-                <tr>
                     <td><a href="{{ path('app_forum_open', {id:post.id}) }}">{{ post.Title }}</a></td>
                     <td> {{ post.createdBy }}</td>
                     <td> {{ post.createdAt|date("d.m. H:i") }}</td>
                     <td>{{ post.Score }}</td>
+                        {% if (post.createdBy == app.user.username) %}
+                            <form action="{{ path('app_forum_delete', {id:post.id}) }}">
+                                <td><button type="submit"  class="btn btn-danger">X</button></td>
+                            </form>
+                        {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    {{ knp_pagination_render(pagination) }}
+    <a style="margin-top: 20px; horiz-align: right" class="btn btn-primary" role="button" href="{{ path('app_forum_create') }}"> Crear Post</a>
 {% endblock %}

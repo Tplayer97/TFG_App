@@ -14,10 +14,10 @@
     </div>
     <div class="tabs-panel is-active">
         <div class="grid-x grid-padding-x">
-            <div class="cell medium-8">
+            <div class="cell medium-8" style="margin-left: 50px">
                 <h1 style="text-align: center;">Título</h1>
                 <div style="margin-bottom: 50px"> {{ form_row(postform.Title) }}</div>
-                <div> {{ form_row(postform.Content) }}</div>
+                <div> {{ form_widget(postform.Content) }}</div>
                 <div style="margin-top: 20px;"> {{ form_row(postform.Post) }}</div>
             </div>
         </div>

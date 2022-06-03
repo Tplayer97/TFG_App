@@ -20,7 +20,8 @@ class PostFormType extends AbstractType
                  'attr' => ['style' => 'width: 100%']
             ])
             ->add('Content', CKEditorType::class, [
-                'label' => ' '
+                'label' => ' ',
+                'attr' => ['style' => 'width: 100%; height: 170px']
             ])
            // ->add('Score')
            ->add('Post', SubmitType::class, [

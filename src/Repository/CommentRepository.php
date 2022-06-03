@@ -47,6 +47,13 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
+    public function getWithSearchQueryBuilder($id){
+        $qb = $this->createQueryBuilder('Comment');
+        $qb->andWhere("Comment.Post = '$id'");
+
+        return $qb;
+    }
+
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */

@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
+use App\Entity\Comment;
 use App\Form\PostFormType;
 use App\Form\Ticket\TicketFormType;
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -31,10 +33,17 @@ class ForumController extends AbstractController
     /**
      * @Route("/forum/open/{id}", name="app_forum_open")
      */
-    public function open($id, PostRepository $postRepo,  PaginatorInterface $paginator){
+    public function open($id, PostRepository $postRepo,  PaginatorInterface $paginator, Request $request, CommentRepository $commnetrepo){
         $post = $postRepo->findOneById($id);
+        $qb = $commnetrepo->getWithSearchQueryBuilder($id);
+        $pagination = $paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('Forum/post.html.twig',[
             'post' => $post,
+            'pagination' => $pagination
         ]);
     }
     /**
@@ -55,11 +64,66 @@ class ForumController extends AbstractController
     ]);
     }
     /**
+     * @Route("/forum/{id}/delete}", name="app_forum_delete")
+     * @IsGranted("ROLE_GESTOR")
+     */
+    public function delete($id, PostRepository $postrepo, EntityManagerInterface $em){
+        $em->remove($postrepo->findOneById($id));
+        $em->flush();
+        $Route = $this->generateUrl('app_forum_list', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);
+        return $this->redirect($Route);
+    }
+    /**
+     * @Route("/forum/{idp}/delete/{id}", name="app_forum_delete_comment")
+     * @IsGranted("ROLE_GESTOR")
+     */
+    public function deleteComment($idp,$id, CommentRepository $commentrepo, EntityManagerInterface $em){
+        $em->remove($commentrepo->findOneById($id));
+        $em->flush();
+        $Route = $this->generateUrl('app_forum_open', ['id'=>$idp], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);
+        return $this->redirect($Route);
+    }
+    /**
+     * @Route("/forum/{id}/comment}", name="app_forum_comment")
+     * @IsGranted("ROLE_GESTOR")
+     */
+    public function comment($id, PostRepository $postRepository, Request $request, EntityManagerInterface $em){
+        $post = $postRepository->findOneById($id);
+        $commenttext = $request->request->get('comment');
+        $comment = new Comment();
+        $comment->setContent($commenttext);
+        $comment->setCreatedBy($this->getUser()->getUserIdentifier());
+        $post->addComment($comment);
+        $em->persist($comment);
+        $em->persist($post);
+        $em->flush();
+        $Route = $this->generateUrl('app_forum_open', ['id'=>$post->getId()], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);
+        return $this->redirect($Route);
+    }
+    /**
      * @Route("/forum/{id}/vote}", name="app_forum_vote")
      * @IsGranted("ROLE_GESTOR")
      */
-    public function vote($id, PostRepository $postRepository){
+    public function vote($id, PostRepository $postRepository, Request $request, EntityManagerInterface $em){
+        $post = $postRepository->findOneById($id);
+        $direction = $request->request->get('direction');
 
+        if ($direction === "up"){
+            $post->setScore($post->getScore()+1);
+            $votado = $post->getVotado();
+            $votado[] = $this->getUser()->getUserIdentifier();
+            $post->setVotado($votado);
+        }
+        else if ($direction === "down"){
+            $post->setScore($post->getScore()-1);
+            $votado = $post->getVotado();
+            $votado[] = $this->getUser()->getUserIdentifier();
+            $post->setVotado($votado);
+        }
+        $em->persist($post);
+        $em->flush();
+        $Route = $this->generateUrl('app_forum_open', ['id'=>$post->getId()], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);
+        return $this->redirect($Route);
     }
     /**
      * @Route("/forum/createpost", name="app_forum_create")
@@ -77,8 +141,8 @@ class ForumController extends AbstractController
                 $em->persist($post);
                 $em->flush();
                 $Route = $this->generateUrl('app_forum_list', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);
-            return $this->redirect($Route);
-        }
+                return $this->redirect($Route);
+            }
         return $this->render('Forum/postform.html.twig',[
             'postform' => $form->createView()
         ]);

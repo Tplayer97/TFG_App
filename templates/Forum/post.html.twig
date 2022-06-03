@@ -10,21 +10,52 @@
 
                 <div style="margin-bottom: 50px"> {{ post.Title }}</div>
                 <div> {{ post.Content|raw }}</div>
-                <div>
+    {% if (app.user.username in post.votado) %}
+        <p style="margin-top: 50px">Ya se ha votado este Post</p>
+        <span> votos: {{ post.score }}</span>
+    {% else %}
+                <div style="margin-top:50px">
                     <form action="{{ path('app_forum_vote', {id: post.id}) }}" method="POST">
                         <div class="vote-arrows vote-arrows-alt flex-fill pt-2" style="min-width: 90px;">
-                            {% if app.user.username in post.votado %}
+
                             <button class="vote-up btn btn-link" name="direction" value="up"><i class="far fa-arrow-alt-circle-up"></i></button>
                             <button class="vote-down btn btn-link" name="direction" value="down"><i class="far fa-arrow-alt-circle-down"></i></button>
-                            <span>{{ post.score }}</span>
+                            <span>votos: {{ post.score }}</span>
                         </div>
                     </form>
                 </div>
-        <div class="d-flex justify-content-between my-4">
+    {% endif %}
+    <div style="margin-top: 20px">
+        <form action="{{ path('app_forum_comment', {id: post.id}) }}" method="POST">
+            <input type="text" id="comment" style="width: 75%; height: 50px" name="comment" required ></input>
+            <button style="margin-top: 20px" class="btn btn-sm btn-secondary">Comentar</button>
+        </form>
+    </div>
+        <div class="d-flex justify-content-between my-4" style="margin-top: 20px">
             <h2 class="">Comentarios <span style="font-size:1.2rem;">({{ post.comments|length }})</span></h2>
-            <button class="btn btn-sm btn-secondary">Comentar</button>
+        </div>
+    <div class="d-flex justify-content-between my-4" style="margin-top: 10px">
+            <table>
+               <thead>
+               <th style="width: 600px">comentario</th>
+               <th>Creador</th>
+               </thead>
+                <tbody>
+                {% for comment in pagination %}
+                    <tr>
+                        <td style="height: 100px">{{ comment.content }}</td>
+                        <td>{{ comment.createdBy }}</td>
+                        {% if (comment.createdBy == app.user.username) %}
+                            <form action="{{ path('app_forum_delete_comment', {idp:post.id, id:comment.id}) }}">
+                                <td><button type="submit"  class="btn btn-danger">X</button></td>
+                            </form>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(pagination) }}
         </div>
 
 
-    </div>
 {% endblock %}
