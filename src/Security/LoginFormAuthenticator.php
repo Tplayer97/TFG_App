@@ -64,7 +64,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             $this->router->generate('app_forum_list')
         );
         else         return new RedirectResponse(
-            $this->router->generate('app_forum_list')
+            $this->router->generate('app_admin')
         );
     }
 

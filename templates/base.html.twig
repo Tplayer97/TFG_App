@@ -60,6 +60,9 @@
 
 
         </div>
+        {% if (is_granted('ROLE_GESTOR')) %}
+            aqui botones de moderar
+        {% endif %}
         {% if ( app.user != null) %}
             <a class="nav-link text-black-50" href="{{ path('app_logout') }}"> Cerrar Sesión</a>
         {% else %}

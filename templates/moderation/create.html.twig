@@ -1,0 +1,15 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{  parent() }}Crear Contenido
+{% endblock %}
+
+{% block body %}
+    {{ form_start(contentform) }}
+    <p> Título del Contenido</p>
+    {{ form_row(contentform.Title) }}
+    <p style = "margin-top: 30px">Archivo, de ser más de uno usar .rar</p>
+    {{ form_row(contentform.File) }}
+    {{ form_end(contentform) }}
+{% endblock %}
