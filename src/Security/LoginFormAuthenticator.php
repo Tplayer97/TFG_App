@@ -59,11 +59,12 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         ($rol = $token->getUser()->getRoles());
-        if (in_array('gestor', $rol))
+        //dd($rol);
+        if (in_array('ROLE_GESTOR', $rol))
         return new RedirectResponse(
             $this->router->generate('app_forum_list')
         );
-        else         return new RedirectResponse(
+        else return new RedirectResponse(
             $this->router->generate('app_admin')
         );
     }

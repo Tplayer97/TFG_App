@@ -61,7 +61,13 @@
 
         </div>
         {% if (is_granted('ROLE_GESTOR')) %}
-            aqui botones de moderar
+            <form action="{{ path('app_moderation_create') }}">
+                <button type="submit"  class="btn btn-primary">Crear Contenido</button>
+            </form>
+
+            <form action="{{ path('app_moderation_moderate') }}">
+                <button  style="margin-left: 20px" type="submit"  class="btn btn-primary">Moderar Contenido</button>
+            </form>
         {% endif %}
         {% if ( app.user != null) %}
             <a class="nav-link text-black-50" href="{{ path('app_logout') }}"> Cerrar Sesión</a>

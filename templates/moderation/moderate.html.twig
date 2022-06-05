@@ -1,0 +1,16 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{  parent() }}Moderar Contenido
+{% endblock %}
+
+{% block body %}
+    <h1 > {{ content.title }} </h1>
+    <p style="margin-top: 20px"> enviado por: {{ content.createdBy }}</p>
+    <a style="margin-top: 20px" href="{{ path('app_moderation_download', {id: content.id}) }}">archivos adjuntos</a>
+    <form style="margin-top: 50px" action="{{ path("app_moderation_vote", {id: content.id}) }}">
+        <button style="margin-right: 20px" class=" btn btn-primary" name="direction" value="up">APROBAR</button>
+        <button class=" btn btn-primary" name="direction" value="down">RECHAZAR</button>
+    </form>
+{% endblock %}

@@ -12,7 +12,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Content
 {
-    use TimestampableEntity;
+//    use TimestampableEntity;
     use BlameableEntity;
     /**
      * @ORM\Id
@@ -35,6 +35,11 @@ class Content
      * @ORM\Column(type="integer")
      */
     private $Score = 0;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $moderado = [];
 
 
 
@@ -75,6 +80,18 @@ class Content
     public function setScore(int $Score): self
     {
         $this->Score = $Score;
+
+        return $this;
+    }
+
+    public function getModerado(): ?array
+    {
+        return $this->moderado;
+    }
+
+    public function setModerado(?array $moderado): self
+    {
+        $this->moderado = $moderado;
 
         return $this;
     }
