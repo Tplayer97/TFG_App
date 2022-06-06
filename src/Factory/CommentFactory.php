@@ -41,8 +41,6 @@ final class CommentFactory extends ModelFactory
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
             'Content' => self::faker()->text(),
             'Score' => self::faker()->randomNumber(),
-            //'Post' => 1,
-
         ];
     }
 

@@ -45,34 +45,29 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light px-1">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ path('app_forum_list') }}">
+        {% if (is_granted('ROLE_GESTOR')) %}
+            <a class="navbar-brand" href="{{ path('app_forum_list') }}">
+                <img src="{{ asset('/images/OCT__8cto_logo.jpg') }}" width="150" height="90">
+            </a>
+        {% else %}
+        <a class="navbar-brand" href="{{ path('app_admin') }}">
             <img src="{{ asset('/images/OCT__8cto_logo.jpg') }}" width="150" height="90">
         </a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapsable" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbar-collapsable">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-            </ul>
-
-
+        {% endif %}
         </div>
         {% if (is_granted('ROLE_GESTOR')) %}
             <form action="{{ path('app_moderation_create') }}">
-                <button type="submit"  class="btn btn-primary">Crear Contenido</button>
+                <button style="width: 190px" type="submit"  class="btn btn-primary">Crear Contenido</button>
             </form>
 
             <form action="{{ path('app_moderation_moderate') }}">
-                <button  style="margin-left: 20px" type="submit"  class="btn btn-primary">Moderar Contenido</button>
+                <button style="width: 190px;margin-left: 20px" type="submit"  class="btn btn-primary">Moderar Contenido</button>
             </form>
         {% endif %}
         {% if ( app.user != null) %}
-            <a class="nav-link text-black-50" href="{{ path('app_logout') }}"> Cerrar Sesión</a>
+            <a style="width: 200px" class="nav-link text-black-50" href="{{ path('app_logout') }}"> Cerrar Sesión</a>
         {% else %}
-        <a class="nav-link text-black-50" href="{{ path('app_login') }}"> Iniciar Sesión</a>
+        <a style="width: 200px" class="nav-link text-black-50" href="{{ path('app_login') }}"> Iniciar Sesión</a>
         {% endif %}
     </div>
 </nav>

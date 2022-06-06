@@ -1,0 +1,28 @@
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    {{ form_start(createform) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <p>Nombre de Usuario</p>
+                {{ form_row(createform.username) }}
+            </div>
+
+            <div class="col-sm">
+                <p style="margin-top: 10px">Contraseña</p>
+                {{ form_row(createform.password) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <p >Rol</p>
+                {{ form_row(createform.roles) }}
+            </div>
+
+        </div>
+    <div style="margin-top: 20px">
+        {{ form_row(createform.post) }}
+    </div>
+    {{ form_end(createform) }}
+{% endblock %}

@@ -1,2 +1,33 @@
 
 {% extends 'base.html.twig' %}
+{% block body %}
+    <p>Buscar usuario:</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <form action="{{ path('app_admin_search') }}" method="POST">
+                    <input type="text" id="search"  name="search" required ></input>
+                    <button  class="btn btn-sm btn-secondary">Buscar</button>
+                </form>
+            </div>
+            <div class="col-sm">
+                <form action="{{ path('app_admin_create') }}">
+                    <button type="submit" class="btn btn-sm btn-primary">Crear Usuario</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% if (user == null) %}
+        No se ha encontrado ningún usuario
+    {%  else %}
+        Usuario: {{ user.firstname }} {{ user.lastname }}
+
+        <form style="margin-top: 20px" action="{{ path('app_admin_edit', {id:user.id}) }}">
+            <button type="submit" class="btn btn-sm btn-primary">Editar Usuario</button>
+        </form>
+
+        <form style="margin-top: 10px" action="{{ path('app_admin_delete', {id:user.id}) }}">
+            <button type="submit" class="btn btn-sm btn-primary">Eliminar Usuario</button>
+        </form>
+    {% endif %}
+{% endblock %}
