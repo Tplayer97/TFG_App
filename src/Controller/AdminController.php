@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\CreateMoodleUserFormType;
+use App\Form\EditUserFormType;
 use App\Form\PostFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,11 +48,33 @@ class AdminController extends AbstractController
         ]);
     }
     /**
-     * @Route("/admin/delete/{id}", name="app_admin_delete")
+     * @Route("/admin/edit/{id}", name="app_admin_edit")
      */
-    public function edit($id){
+    public function edit($id, Request $request){
+        $PDO = new \PDO("mysql:dbname=moodle;host=localhost", "root", "");
+        $form = $this->createForm(EditUserFormType::class);
+        $PDO = new \PDO("mysql:dbname=moodle;host=localhost", "root", "");
+        $sql="SELECT * FROM mdl_user WHERE id = '$id'";
 
-    }
+        $users = $PDO->query($sql);
+        if ($users->rowCount() > 0){
+            $user = $users->fetch(2);
+        }
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $sql="";
+
+            $PDO->query($sql);
+            return $this->render('admin/main.html.twig', [
+                'user' => null
+            ]);
+        }
+        return $this->render('admin/edit.html.twig',[
+           'editform' =>$form->createView(),
+            'user' => $user
+        ]);
+        }
 
     /**
      * @Route("/admin/delete/{id}", name="app_admin_delete")

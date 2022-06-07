@@ -19,7 +19,7 @@ class DefaultController extends AbstractController
  */
 public function test(){
 
-
-    dd("hola");
+    $Route = $this->generateUrl('app_login', [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_PATH);
+    return $this->redirect($Route);
 }
 }

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{  parent() }}Editar Usuario
+{% endblock %}
+
+{% block body %}
+    <h1 style="margin-bottom: 30px">Editar Usuario de Moodle</h1>
+    {{ form_start(editform) }}
+    <div  class="container">
+            <div class="row">
+                <p>Información personal</p>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    Nombre
+                    {{ form_row(editform.Nombre, {'value':user.firstname}) }}
+                </div>
+                <div class="col-sm">
+                    Apellidos
+                    {{ form_row(editform.Apellidos, {'value':user.lastname}) }}
+                </div>
+            </div>
+            <div style="margin-top: 30px" class="row">
+                <p>Información de contacto</p>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    Email
+                    {{ form_row(editform.mail, {'value':user.email}) }}
+                </div>
+                <div class="col-sm">
+                    Teléfono
+                    {{ form_row(editform.telefono, {'value':user.phone1}) }}
+                </div>
+            </div>
+            <div style="margin-top: 30px"  class="row">
+                <div class="col-sm">
+                    Dirección
+                    {{ form_row(editform.Direccion, {'value':user.address}) }}
+                </div>
+            </div>
+    </div>
+    {{ form_end(editform) }}
+{% endblock %}

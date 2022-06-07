@@ -1,6 +1,12 @@
 
 {% extends 'base.html.twig' %}
+
+{% block title %}
+    {{  parent() }}Crear Usuario
+{% endblock %}
+
 {% block body %}
+    <h1 style="margin-bottom: 30px">Crear Usuario</h1>
     {{ form_start(createform) }}
     <div class="container">
         <div class="row">
